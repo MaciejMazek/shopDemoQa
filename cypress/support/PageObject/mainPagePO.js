@@ -14,22 +14,6 @@ class MainPagePO {
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 }
 
 export const mainPagePO = new MainPagePO;
