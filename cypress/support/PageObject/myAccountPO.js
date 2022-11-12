@@ -1,7 +1,10 @@
+import userData from "../../fixtures/userData.json"
+
 class MyAccount {
 
-    registerAccount({ username = "defaultUsername", email = "default@email.com", password = "Password123!password!@#1", finishRegistration = true }) {
+    data = userData;
 
+    registerAccount({ username = "defaultUsername", email = "default@email.com", password = "Password123!password!@#1", finishRegistration = true }) {
 
         cy.get('#reg_username')
             .type(username);
@@ -14,6 +17,30 @@ class MyAccount {
 
         if (finishRegistration) {
             cy.get('.woocommerce-form-register__submit')
+                .click();
+        }
+    }
+
+    logIntoAccount({ username = this.data.username, email = this.data.email, password = this.data.password,
+        useEmail = false, finishLogin = true, isRememberMe = false }) {
+
+        if (useEmail) {
+            cy.get("#username").type(email)
+        } else {
+            cy.get("#username").type(username)
+        }
+
+        cy.get('#password')
+            .type(password);
+
+        if (isRememberMe) {
+            cy.get('#rememberme')
+                .check();
+        }
+
+        if (finishLogin) {
+            cy.get('#customer_login')
+                .find('.woocommerce-form-login__submit')
                 .click();
         }
     }
