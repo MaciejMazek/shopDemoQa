@@ -1,6 +1,5 @@
 import { mainPagePO } from "../../support/PageObject/mainPagePO";
 import { myAccountPO } from "../../support/PageObject/myAccountPO";
-import { methods } from '../../support/PageObject/methods'
 
 beforeEach(() => {
     mainPagePO.openPage();
