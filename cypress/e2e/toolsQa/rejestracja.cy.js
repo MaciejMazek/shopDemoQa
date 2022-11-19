@@ -11,7 +11,7 @@ beforeEach(() => {
 describe('Testy funkcjonalności rejestracji', () => {
 
     //test jest skipnięty ze względu na to, że nie chcę zasypywać bazy danych nowymi rejestracjami za każdym razem, kiedy chcę puścić testy.
-    it('Rejestracja z prawidłowymi danymi', () => {
+    it.skip('Rejestracja z prawidłowymi danymi', () => {
 
         let testUsername = methods.makeid(7);
 
