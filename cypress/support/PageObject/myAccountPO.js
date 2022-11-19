@@ -4,7 +4,7 @@ class MyAccount {
 
     data = userData;
 
-    registerAccount({ username = "defaultUsername", email = "default@email.com", password = "Password123!password!@#1", finishRegistration = true }) {
+    registerAccount({ username = "defaultUsername1", email = "default1@email.com", password = "Password123!password!@#1", finishRegistration = true }) {
 
         cy.get('#reg_username')
             .type(username);

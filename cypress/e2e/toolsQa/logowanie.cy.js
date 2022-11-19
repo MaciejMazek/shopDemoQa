@@ -74,7 +74,7 @@ describe("Testy logowania do shop.demoqa", () => {
     it('Odświeżenie strony po wpisaniu danych - dane usera pozostają wpisane', () => {
 
         cy.on('fail', (e) => {
-            if (e.message != 'Timed out retrying after 4000ms: expected \'<input#username.woocommerce-Input.woocommerce-Input--text.input-text>\' to contain value \'Polly Dallton\', but the value was \'\'') {
+            if (e.message != 'Timed out retrying after 4000ms: expected \'<input#username.woocommerce-Input.woocommerce-Input--text.input-text>\' to contain \'Polly Dallton\'') {
                 throw e;
             }
         })
@@ -104,7 +104,7 @@ describe("Testy logowania do shop.demoqa", () => {
             .contains('Lost your password?')
             .click();
 
-        cy.url().should('contain.value', 'lost-password');
+        cy.url().should('contain', 'lost-password');
     });
 
     it('Odzyskiwanie hasła', () => {
@@ -123,7 +123,7 @@ describe("Testy logowania do shop.demoqa", () => {
             .should('contain', 'Password reset email has been sent.');
     });
 
-    it.only('Działanie zapamiętania logowania', () => {
+    it('Działanie zapamiętania logowania', () => {
 
         cy.on('fail', (e) => {
             if (e.message != 'Timed out retrying after 4000ms: expected \'<input#username.woocommerce-Input.woocommerce-Input--text.input-text>\' to contain value \'Polly Dallton\', but the value was \'\'') {

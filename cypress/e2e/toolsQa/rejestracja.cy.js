@@ -1,5 +1,6 @@
 import { mainPagePO } from "../../support/PageObject/mainPagePO";
 import { myAccountPO } from "../../support/PageObject/myAccountPO";
+import { methods } from "../../support/PageObject/methods";
 
 beforeEach(() => {
     mainPagePO.openPage();
@@ -10,15 +11,14 @@ beforeEach(() => {
 describe('Testy funkcjonalności rejestracji', () => {
 
     //test jest skipnięty ze względu na to, że nie chcę zasypywać bazy danych nowymi rejestracjami za każdym razem, kiedy chcę puścić testy.
-    it.skip('Rejestracja z prawidłowymi danymi', () => {
+    it('Rejestracja z prawidłowymi danymi', () => {
 
-        let username = methods.makeid(7);
+        let testUsername = methods.makeid(7);
 
-        myAccountPO.registerAccount(username, myAccountPO.defaultEmail, myAccountPO.defaultPassword);
-
+        myAccountPO.registerAccount({ username: testUsername, email: testUsername + '@email.com' });
         cy.get('#noo-site')
             .find('.entry-content')
-            .should('contain.text', 'Hello ' + username)
+            .should('contain.text', 'Hello ' + testUsername);
     })
 
     it('Rejestracja bez wpisania danych', () => {
