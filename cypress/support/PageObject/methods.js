@@ -8,6 +8,19 @@ class Methods {
         }
         return result;
     }
+
+    replaceStringWithPath(string) {
+
+        string = string.toLowerCase();
+        if (/\s$/.test(string)) {
+            string = string.slice('0', '-1');
+        }
+        string = string.replace('\n', '');
+        while (string.includes(' ')) {
+            string = string.replace(' ', '-');
+        }
+        return string;
+    }
 }
 
 export const methods = new Methods;
