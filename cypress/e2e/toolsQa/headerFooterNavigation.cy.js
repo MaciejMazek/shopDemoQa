@@ -111,13 +111,3 @@ describe('Testy headera, footera i nawigacji', () => {
             .should('have.css', 'display', 'block');
     });
 })
-
-/*
-
-2x barbek
-frytki + frytki z batatów
-
-MG Nowy Rynek 3/10
-62-095
-50,40 + 19 + 6 = 75,40
-*/
