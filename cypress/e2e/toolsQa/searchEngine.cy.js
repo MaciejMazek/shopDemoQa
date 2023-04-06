@@ -61,7 +61,7 @@ describe("Testy funkcjonalności wyszukiwania", () => {
 
         it('Wpisanie losowego ciągu znaków i uruchomienie wyszukiwania', () => {
             cy.get('.noo-search')
-                .click()
+                .click();
 
             cy.get('[type="search"]')
                 .type('Test value')
@@ -69,7 +69,7 @@ describe("Testy funkcjonalności wyszukiwania", () => {
 
             cy.get('.woocommerce-info.woocommerce-no-products-found')
                 .invoke('prop', 'textContent')
-                .should('eq', 'No products were found matching your selection.')
+                .should('eq', 'No products were found matching your selection.');
         });
 
         it('Wyszukanie kolejnego produktu po skutecznym wyszukaniu pierwszego', () => {
@@ -92,6 +92,90 @@ describe("Testy funkcjonalności wyszukiwania", () => {
 
             cy.get('.product')
                 .should('exist');
+        });
+    })
+
+    context("Belka filtrów na stronie listy wyszukanych produktów", () => {
+
+        // Filtrowanie size/color nie działa. Z racji braku specyfikacji nie wiem jak powinna wyglądać strona po skutecznym filtrowaniu. 
+        // Przyjmuję założenie, że prawidłowym wynikiem jest brak wyników.
+
+        it('Panel pokazuje prawidłową ilość produktów', () => {
+            mainPagePO.searchValue('Dress');
+
+            cy.get('.woocommerce-result-count')
+                .invoke('prop', 'textContent')
+                .should('include', '16 results')
+        });
+
+        it('Można filtrować po kolorze', () => {
+            mainPagePO.searchValue('Dress');
+
+            cy.get('.noo_woocommerce-catalog')
+                .find('[name="filter_color"]')
+                .select('Brown');
+
+            cy.get('.woocommerce-info.woocommerce-no-products-found')
+                .invoke('prop', 'textContent')
+                .should('eq', 'No products were found matching your selection.')
+        });
+
+        it('Można filtrować po rozmiarze', () => {
+            mainPagePO.searchValue('Dress');
+
+            cy.get('.noo_woocommerce-catalog')
+                .find('[name="filter_size"]')
+                .select('Large');
+
+            cy.get('.woocommerce-info.woocommerce-no-products-found')
+                .invoke('prop', 'textContent')
+                .should('eq', 'No products were found matching your selection.')
+        });
+
+        it.only('Prawidłowa prezentacja rozkładu - grid', () => {
+            mainPagePO.searchValue('Dress');
+
+            cy.get('.noo_woocommerce-catalog')
+                .find('[name="filter_style"]')
+                .select('Grid');
+
+            cy.get('.noo-product-item')
+                .should('exist');
+        });
+
+        it.only('Prawidłowa prezentacja rozkładu - list', () => {
+            mainPagePO.searchValue('Dress');
+
+            cy.get('.noo_woocommerce-catalog')
+                .find('[name="filter_style"]')
+                .select('List');
+
+            cy.get('.product-list')
+                .should('exist');
+        });
+
+        it('Można sortować po relevance', () => {
+
+        });
+
+        it('Można sortować po popularity', () => {
+
+        });
+
+        it('Można sortować po average rating', () => {
+
+        });
+
+        it('Można sortować po latest', () => {
+
+        });
+
+        it('Można sortować po price: low to high', () => {
+
+        });
+
+        it('Można sortować po price: hight to low', () => {
+
         });
     })
 })

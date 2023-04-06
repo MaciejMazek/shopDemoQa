@@ -30,6 +30,15 @@ class MainPagePO {
             .click();
     }
 
+    searchValue(searchedValue) {
+        cy.get('.noo-search')
+            .click();
+
+        cy.get('[type="search"]')
+            .type(searchedValue)
+            .type('{enter}');
+    }
+
 }
 
 export const mainPagePO = new MainPagePO;
