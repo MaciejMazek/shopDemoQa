@@ -1,6 +1,5 @@
 import { mainPagePO } from "../../support/PageObject/mainPagePO";
 
-
 describe("Testy funkcjonalności wyszukiwania", () => {
     beforeEach(() => {
         mainPagePO.openPage();
@@ -132,7 +131,7 @@ describe("Testy funkcjonalności wyszukiwania", () => {
                 .should('eq', 'No products were found matching your selection.')
         });
 
-        it.only('Prawidłowa prezentacja rozkładu - grid', () => {
+        it('Prawidłowa prezentacja rozkładu - grid', () => {
             mainPagePO.searchValue('Dress');
 
             cy.get('.noo_woocommerce-catalog')
@@ -143,7 +142,7 @@ describe("Testy funkcjonalności wyszukiwania", () => {
                 .should('exist');
         });
 
-        it.only('Prawidłowa prezentacja rozkładu - list', () => {
+        it('Prawidłowa prezentacja rozkładu - list', () => {
             mainPagePO.searchValue('Dress');
 
             cy.get('.noo_woocommerce-catalog')
@@ -156,26 +155,148 @@ describe("Testy funkcjonalności wyszukiwania", () => {
 
         it('Można sortować po relevance', () => {
 
+
+            mainPagePO.searchValue('Dress');
+
+            cy.get('.woocommerce-ordering')
+                .find('.orderby')
+                .first()
+                .select('price')
+                .then(() => {
+                    cy.url().should('include', 'orderby=price')
+
+                    cy.get('.woocommerce-ordering')
+                        .find('.orderby')
+                        .should('have.prop', 'value', 'price');
+
+
+                    cy.get('.woocommerce-ordering')
+                        .find('.orderby')
+                        .first()
+                        .select('relevance')
+                        .then(() => {
+                            cy.url().should('include', 'orderby=relevance')
+
+                            cy.get('.woocommerce-ordering')
+                                .find('.orderby')
+                                .should('have.prop', 'value', 'relevance');
+                        })
+
+                    cy.get('.products.noo-row')
+                        .find('.noo-product-item')
+                        .first()
+                        .find('a')
+                        .first()
+                        .should('have.prop', 'textContent', 'white milkmaid hook and eye bodycon midi dress');
+                })
         });
 
         it('Można sortować po popularity', () => {
+            mainPagePO.searchValue('Dress');
 
+            cy.get('.woocommerce-ordering')
+                .find('.orderby')
+                .select('popularity')
+                .then(() => {
+
+                    cy.get('.woocommerce-ordering')
+                        .find('.orderby')
+                        .should('have.prop', 'value', 'popularity');
+                })
+
+            cy.get('.products.noo-row')
+                .find('.noo-product-item')
+                .first()
+                .find('a')
+                .first()
+                .should('have.prop', 'textContent', 'Tokyo Talkies');
         });
 
         it('Można sortować po average rating', () => {
+            mainPagePO.searchValue('Dress');
 
+            cy.get('.woocommerce-ordering')
+                .find('.orderby')
+                .first()
+                .select('rating')
+                .then(() => {
+
+                    cy.get('.woocommerce-ordering')
+                        .find('.orderby')
+                        .should('have.prop', 'value', 'rating');
+                })
+
+            cy.get('.products.noo-row')
+                .find('.noo-product-item')
+                .first()
+                .find('a')
+                .first()
+                .should('have.prop', 'textContent', 'white milkmaid hook and eye bodycon midi dress');
         });
 
         it('Można sortować po latest', () => {
+            mainPagePO.searchValue('Dress');
 
+            cy.get('.woocommerce-ordering')
+                .find('.orderby')
+                .first()
+                .select('date')
+                .then(() => {
+
+                    cy.get('.woocommerce-ordering')
+                        .find('.orderby')
+                        .should('have.prop', 'value', 'date');
+                })
+
+            cy.get('.products.noo-row')
+                .find('.noo-product-item')
+                .first()
+                .find('a')
+                .first()
+                .should('have.prop', 'textContent', 'white milkmaid hook and eye bodycon midi dress');
         });
 
         it('Można sortować po price: low to high', () => {
+            mainPagePO.searchValue('Dress');
 
+            cy.get('.woocommerce-ordering')
+                .find('.orderby')
+                .first()
+                .select('price')
+                .then(() => {
+
+                    cy.get('.woocommerce-ordering')
+                        .find('.orderby')
+                        .should('have.prop', 'value', 'price');
+                })
+
+            cy.get('.products.noo-row')
+                .find('.noo-product-item')
+                .first()
+                .find('a')
+                .first()
+                .should('have.prop', 'textContent', 'Black Cross Back Maxi Dress');
         });
 
         it('Można sortować po price: hight to low', () => {
+            mainPagePO.searchValue('Dress');
 
+            cy.get('.woocommerce-ordering')
+                .find('.orderby')
+                .select('price\-desc')
+                .then(() => {
+
+                    cy.get('.woocommerce-ordering')
+                        .find('.orderby')
+                        .should('have.prop', 'value', 'price-desc');
+                })
+
+            cy.get('.products.noo-row')
+                .find('.noo-product-item')
+                .first()
+                .find('a')
+                .first()
+                .should('have.prop', 'textContent', 'Tokyo Talkies');
         });
     })
 })
