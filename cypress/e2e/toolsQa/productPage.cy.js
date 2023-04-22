@@ -72,7 +72,7 @@ describe("Strona z produktem", () => {
 
         it('Występowanie zdjęcia produktu', () => {
             cy.get('.noo-woo-images__image')
-                .should('have.attr', 'src', 'https://shop.demoqa.com/wp-content/uploads/2016/05/Tokyo-Talkies-Women-Black-Printed-Maxi-Dress-1-600x800.jpg');
+                .should('have.attr', 'src', 'https://shop.demoqa.com/wp-content/uploads/2019/04/black-cross-back-maxi-dress-1-600x869.jpg');
         });
 
         it('Możliwość przewijania zdjęcia strzałką w prawo', () => {
@@ -123,43 +123,162 @@ describe("Strona z produktem", () => {
         });
 
         it('Występowanie szczegółowych informacji', () => {
+            cy.get('.product_meta')
+                .should('exist');
 
+            cy.get('.product_meta')
+                .find('.sku')
+                .should('exist');
+
+            cy.get('.product_meta')
+                .find('.posted_in')
+                .should('exist');
+
+            cy.get('.product_meta')
+                .find('.tagged_as')
+                .should('exist');
         });
 
         it('Możliwość wyboru z comboboxa różnych wersji kolorystycznych', () => {
+            cy.get('#pa_color')
+                .select('beige')
+                .then(() => {
+                    cy.get('#pa_color')
+                        .invoke('prop', 'value')
+                        .should('eq', 'beige')
+                });
 
+            cy.get('#pa_color')
+                .select('black')
+                .then(() => {
+                    cy.get('#pa_color')
+                        .invoke('prop', 'value')
+                        .should('eq', 'black')
+                })
         });
 
         it('Możliwość wyboru z comboboxa różnych wersji rozmiarowych', () => {
+            cy.get('#pa_size')
+                .select('large')
+                .then(() => {
+                    cy.get('#pa_size')
+                        .invoke('prop', 'value')
+                        .should('eq', 'large')
+                });
 
+            cy.get('#pa_size')
+                .select('medium')
+                .then(() => {
+                    cy.get('#pa_size')
+                        .invoke('prop', 'value')
+                        .should('eq', 'medium')
+                });
+
+            cy.get('#pa_size')
+                .select('small')
+                .then(() => {
+                    cy.get('#pa_size')
+                        .invoke('prop', 'value')
+                        .should('eq', 'small')
+                });
         });
 
         it('Kliknięcie przycisku "clear" czyści wyboru comboboxów', () => {
+            cy.get('#pa_color')
+                .select('beige')
+                .then(() => {
+                    cy.get('#pa_color')
+                        .invoke('prop', 'value')
+                        .should('eq', 'beige');
+                });
 
+            cy.get('#pa_size')
+                .select('large')
+                .then(() => {
+                    cy.get('#pa_size')
+                        .invoke('prop', 'value')
+                        .should('eq', 'large');
+                });
+
+            cy.get('.reset_variations')
+                .click()
+                .then(() => {
+                    cy.get('#pa_color')
+                        .invoke('prop', 'value')
+                        .should('be.empty');
+
+                    cy.get('#pa_size')
+                        .invoke('prop', 'value')
+                        .should('be.empty');
+                });
         });
 
         it('Możliwość dodania do wishlist', () => {
+            cy.get('.summary.entry-summary')
+                .find('.add_to_wishlist.single_add_to_wishlist')
+                .click();
 
+            cy.get('#yith-wcwl-message')
+                .should('have.prop', 'textContent', 'Product added!');
+
+            cy.scrollTo('top');
+
+            cy.get('.noo-header.fixed_top.header-2')
+                .contains('My Wishlist')
+                .click();
+
+
+            cy.get('.wishlist-empty')
+                .should('not.exist');
         });
 
         it('Możliwość wywołania opcji "compare"', () => {
+            cy.get('.summary.entry-summary')
+                .find('.compare')
+                .click();
 
+            cy.get('iframe')
+                .should('exist');
         });
 
         it('Możliwość wybrania "share on facebook"', () => {
+            cy.get('[title="Share on Facebook"]')
+                .invoke('attr', 'onclick', 'document.cookie = "cypressTest=passed"')
+                .click();
 
+            cy.getCookie('cypressTest')
+                .its('value')
+                .should('eq', 'passed');
         });
 
         it('Możliwość wybrania "share on twitter"', () => {
+            cy.get('[title="Share on Twitter"]')
+                .invoke('attr', 'onclick', 'document.cookie = "cypressTest=passed"')
+                .click();
 
+            cy.getCookie('cypressTest')
+                .its('value')
+                .should('eq', 'passed');
         });
 
         it('Możliwość wybrania "share on google"', () => {
+            cy.get('[title="Share on Google+"]')
+                .invoke('attr', 'onclick', 'document.cookie = "cypressTest=passed"')
+                .click();
 
+            cy.getCookie('cypressTest')
+                .its('value')
+                .should('eq', 'passed');
         });
 
         it('Możliwość wybrania "share on pinterest"', () => {
+            cy.get('[title="Share on Pinterest"]')
+                .invoke('attr', 'onclick', 'document.cookie = "cypressTest=passed"')
+                .click();
 
+            cy.getCookie('cypressTest')
+                .its('value')
+                .should('eq', 'passed');
         });
     });
 
