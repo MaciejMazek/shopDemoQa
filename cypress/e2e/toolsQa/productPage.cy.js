@@ -4,12 +4,17 @@ describe("Strona z produktem", () => {
 
     beforeEach(() => {
         mainPagePO.openPage();
-        mainPagePO.moveToProduct("Tokyo Talkies");
     });
 
 
 
     context("Top bar", () => {
+
+        beforeEach(() => {
+            mainPagePO.moveToProduct("Tokyo Talkies");
+        });
+
+
         it('Występowanie tytułu produktu', () => {
             cy.get('.page-title')
                 .should('exist');
@@ -59,20 +64,62 @@ describe("Strona z produktem", () => {
     });
 
     context("Testy sekcji produktu", () => {
-        it('Występowanie zdjęcia produktu', () => {
 
+        beforeEach(() => {
+            mainPagePO.moveToProduct("Black Cross Back Maxi Dress");
         });
 
-        it('Możliwość przewijania zdjęcia strzałką w lewo', () => {
 
+        it('Występowanie zdjęcia produktu', () => {
+            cy.get('.noo-woo-images__image')
+                .should('have.attr', 'src', 'https://shop.demoqa.com/wp-content/uploads/2016/05/Tokyo-Talkies-Women-Black-Printed-Maxi-Dress-1-600x800.jpg');
         });
 
         it('Możliwość przewijania zdjęcia strzałką w prawo', () => {
+            cy.get('.ion-ios-arrow-forward')
+                .click();
 
+            cy.get('.noo-woo-images')
+                .find('[data-index="1"]')
+                .should('have.class', 'noo-woo-images__slide--active');
+
+            //zabieg konieczny do usunięcia focusu ze strzałki, przez który ponowne kliknięcie nie dawało efektu. Tu klikamy w zwykły textContent nie będący aktywnym elementem.
+            cy.contains('SKU: ').click();
+
+            cy.get('.ion-ios-arrow-forward')
+                .click();
+
+            cy.get('.noo-woo-images')
+                .find('[data-index="2"]')
+                .should('have.class', 'noo-woo-images__slide--active');
+        });
+
+        it('Możliwość przewijania zdjęcia strzałką w lewo', () => {
+            cy.get('.ion-ios-arrow-back')
+                .click();
+
+            cy.get('.noo-woo-images')
+                .find('[data-index="4"]')
+                .should('have.class', 'noo-woo-images__slide--active');
+
+            cy.contains('SKU: ').click();
+
+            cy.get('.ion-ios-arrow-back')
+                .click();
+
+            cy.get('.noo-woo-images')
+                .find('[data-index="3"]')
+                .should('have.class', 'noo-woo-images__slide--active');
         });
 
         it('Możliwość zmiany wyświetlanego zdjęcia kliknięciem w miniaturę', () => {
+            cy.get('.noo-woo-thumbnails-wrap--vertical')
+                .find('[data-index="3"]')
+                .click();
 
+            cy.get('.noo-woo-images')
+                .find('[data-index="3"]')
+                .should('have.class', 'noo-woo-images__slide--active');
         });
 
         it('Występowanie szczegółowych informacji', () => {
