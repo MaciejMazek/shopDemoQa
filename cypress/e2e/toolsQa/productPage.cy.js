@@ -283,12 +283,53 @@ describe("Strona z produktem", () => {
     });
 
     context("Additional information", () => {
+
+        beforeEach(() => {
+            mainPagePO.moveToProduct("Tokyo Talkies");
+            cy.contains('Additional information')
+                .click();
+        });
+
         it('Możliwe opcje kolorystyczne podane są zgodnie z ich występowaniem w comboboxie', () => {
 
+            cy.get('#color')
+                .find('option')
+                .each((el, i) => {
+
+                    let elementValue;
+
+                    elementValue = el.text()
+
+                    if (i != 0) {
+                        cy.get('.woocommerce-product-attributes-item__value')
+                            .children()
+                            .first()
+                            .should('contain', elementValue);
+                    }
+
+
+                })
         });
 
         it('Możliwe opcje rozmiarów podane są zgodnie z ich występowaniem w comboboxie', () => {
 
+            cy.get('#size')
+                .find('option')
+                .each((el, i) => {
+
+                    let elementValue;
+
+                    elementValue = el.text()
+
+                    if (i != 0) {
+                        cy.get('.woocommerce-product-attributes-item__value')
+                            .children()
+                            .eq([1])
+                            .should('contain', elementValue);
+                    }
+
+
+                })
         });
     });
 
