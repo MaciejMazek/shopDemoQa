@@ -334,44 +334,122 @@ describe("Strona z produktem", () => {
     });
 
     context("Related products", () => {
-        it('Sekcja "Related products" zawiera osiem pozycji', () => {
 
+        beforeEach(() => {
+            mainPagePO.moveToProduct("Tokyo Talkies");
         });
-
-        it('Sekcja "Related products" jest rozłożona w dwóch rzędach', () => {
-
+        it('Sekcja "Related products" zawiera osiem pozycji', () => {
+            cy.get('.products.noo-row')
+                .children()
+                .should('have.length', 8);
         });
 
         it('Możliwość przejścia na produkt z sekcji "Related products"', () => {
+            cy.get('.related.products')
+                .contains('red satin round neck backless maxi dress')
+                .click();
 
+            cy.url()
+                .should('contain', '/product/red-satin-round-neck-backless-maxi-dress/');
         });
 
         it('Po przejściu na produkt z "Related products", przeglądarkowe "wstecz" wraca na stronę produktu który był wyświetlony', () => {
+            cy.get('.related.products')
+                .contains('red satin round neck backless maxi dress')
+                .click();
 
+            cy.url()
+                .should('contain', '/product/red-satin-round-neck-backless-maxi-dress/');
+
+            cy.go('back');
+
+            cy.url()
+                .should('contain', '/product/tokyo-talkies/');
         });
 
         it('Możliwość dodania produktu z "Related products" do wishlist', () => {
+            cy.get('.related.products')
+                .find('.product_cat-maxi-dresses')
+                .first()
+                .find('.add_to_wishlist ')
+                .click();
 
+            cy.get('#yith-wcwl-message')
+                .should('have.prop', 'textContent', 'Product added!');
+
+            cy.scrollTo('top');
+
+            cy.get('.noo-header.fixed_top.header-2')
+                .contains('My Wishlist')
+                .click();
+
+
+            cy.get('.wishlist-empty')
+                .should('not.exist');
         });
 
         it('Możliwość dodania produktu z "Related products" do porównywarki', () => {
+            cy.get('.related.products')
+                .find('.product_cat-maxi-dresses')
+                .first()
+                .find('.compare')
+                .click();
+
+            cy.get('iframe')
+                .should('exist');
 
         });
 
         it('Możliwość przybliżenia produktu z "Related products"', () => {
 
+            cy.get('.related.products')
+                .find('.product_cat-maxi-dresses')
+                .first()
+                .find('.noo-quick-view')
+                .click();
+
+            cy.get('.quick-view-wrap')
+                .should('exist');
         });
 
         it('Możliwość przewinięcia zdjęcia produktu z "Related products"', () => {
+            cy.get('.related.products')
+                .find('.product_cat-maxi-dresses')
+                .first()
+                .find('.owl-pagination')
+                .children()
+                .eq([1])
+                .click();
 
-        });
+            cy.get('.related.products')
+                .find('.product_cat-maxi-dresses')
+                .first()
+                .find('.owl-wrapper')
+                .children()
+                .then((yieldedArr) => {
+                    cy.wrap(yieldedArr)
+                        .eq([0])
+                        .should('not.have.class', 'active');
 
-        it('Możliwość przewinięcia zdjęcia produktu z "Related products" wykorzystując kropkę pod zdjęciem', () => {
+                    cy.wrap(yieldedArr)
+                        .eq([1])
+                        .should('have.class', 'active');
 
+                    cy.wrap(yieldedArr)
+                        .eq([2])
+                        .should('not.have.class', 'active');
+                })
         });
 
         it('Kliknięcie na typ produktu z "Related products" przenosi do wyszukiwania rodzaju', () => {
+            cy.get('.related.products')
+                .find('.product_cat-maxi-dresses')
+                .first()
+                .find('.posted_in')
+                .click();
 
+            cy.url()
+                .should('contain', '/product-category/dress/');
         });
     });
 });
