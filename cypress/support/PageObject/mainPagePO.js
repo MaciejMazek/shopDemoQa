@@ -28,7 +28,7 @@ class MainPagePO {
     moveToMainPage() {
         cy.get('.navbar-logo')
             .click();
-    }
+    };
 
     searchValue(searchedValue) {
         cy.get('.noo-search')
@@ -37,8 +37,12 @@ class MainPagePO {
         cy.get('[type="search"]')
             .type(searchedValue)
             .type('{enter}');
-    }
+    };
 
+    moveToProduct(productName) {
+        cy.contains(productName)
+            .click();
+    }
 }
 
 export const mainPagePO = new MainPagePO;
