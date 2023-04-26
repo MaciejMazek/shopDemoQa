@@ -30,6 +30,11 @@ class MainPagePO {
             .click();
     };
 
+    moveToCart() {
+        cy.get('.icon_bag_alt')
+            .click();
+    }
+
     searchValue(searchedValue) {
         cy.get('.noo-search')
             .click();
